@@ -135,7 +135,7 @@ public partial class MainWindow
             Title = "Exportar relatório",
             Filter = "Relatório HTML (*.html)|*.html|Dados JSON (*.json)|*.json",
             DefaultExt = ".html",
-            FileName = $"RESET-EXPLODE-relatorio-{DateTime.Now:yyyyMMdd-HHmm}",
+            FileName = $"Disney-Explode-relatorio-{DateTime.Now:yyyyMMdd-HHmm}",
         };
         if (dlg.ShowDialog(this) != true) return;
         string path = dlg.FileName;
