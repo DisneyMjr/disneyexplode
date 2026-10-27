@@ -122,4 +122,4 @@ jobs:
           else
             gh release create "$tag" --target "$GITHUB_SHA" --title "$title" --notes-file RELEASE-NOTES.md "${flags[@]}"
           fi
-          gh release upload "$tag" packages/DisneyExplode.exe packages/DisneyExplode-windows-x64.zip packages/DisneyExplode-linux-x64.tar.gz --clobber
+          gh release upload "$tag" packages/dist/DisneyExplode.exe packages/DisneyExplode-windows-x64.zip packages/DisneyExplode-linux-x64.tar.gz --clobber
