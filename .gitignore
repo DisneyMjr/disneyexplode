@@ -18,3 +18,9 @@ DisneyExplode-dist/
 
 # Drivers seriais embutidos (DISNEY MAKER): as DLLs fazem parte dos pacotes assinados
 !Drivers/**
+
+# Linux packaging
+build/
+*.spec
+__pycache__/
+dist/

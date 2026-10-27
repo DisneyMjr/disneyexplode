@@ -188,3 +188,9 @@ Ao criar uma tag (`git tag v0.12` e `git push --tags`), também sai uma release 
 ## Licença
 
 MIT — veja o arquivo [LICENSE](LICENSE).
+
+## Edição Linux e builds
+
+A edição Windows permanece em WPF/.NET 8. A edição Linux é reduzida e usa terminal; veja [linux/README.md](linux/README.md).
+
+O GitHub Actions compila e verifica as duas edições em runners Windows e Ubuntu, disponibiliza artefatos e publica os downloads em Releases quando ambas as compilações passam. A compilação precisa executar no repositório DisneyMjr/disneyexplode para gerar os downloads dessa cópia.
