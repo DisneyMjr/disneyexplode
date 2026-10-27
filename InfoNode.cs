@@ -1,4 +1,4 @@
-namespace ResetExplode;
+namespace DisneyExplode;
 
 /// <summary>Nó da árvore de informações do sistema.</summary>
 public class InfoNode

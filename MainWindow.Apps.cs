@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Windows;
 
-namespace ResetExplode;
+namespace DisneyExplode;
 
-/// <summary>Aba RESET FERRAMENTAS · Instalar apps: essenciais pós-formatação pelo winget.</summary>
+/// <summary>Aba DISNEY FERRAMENTAS · Instalar apps: essenciais pós-formatação pelo winget.</summary>
 public partial class MainWindow
 {
     private List<InstallableApp>? _installApps;

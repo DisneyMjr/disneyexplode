@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -6,9 +6,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace ResetExplode;
+namespace DisneyExplode;
 
-/// <summary>Saúde dos discos, benchmark de disco (RESET BENCH) e exportação de relatório.</summary>
+/// <summary>Saúde dos discos, benchmark de disco (DISNEY BENCH) e exportação de relatório.</summary>
 public partial class MainWindow
 {
     // ================= Saúde dos discos =================
@@ -175,7 +175,7 @@ public partial class MainWindow
         }
         catch (Exception ex)
         {
-            MessageBox.Show(this, "Não foi possível gerar o relatório:\n" + ex.Message, "RESET EXPLODE", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this, "Não foi possível gerar o relatório:\n" + ex.Message, "Disney Explode", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         finally
         {
@@ -189,7 +189,7 @@ public partial class MainWindow
         string TestName(string t) => t switch
         {
             "gpu" => "Cena de jogo (GPU)", "sim" => "Simulação de jogo (CPU)", "mem" => "Memória e carregamento",
-            "disk" => "Disco", "oc" => "RESET OC (estabilidade)", _ => t
+            "disk" => "Disco", "oc" => "DISNEY OC (estabilidade)", _ => t
         };
         var list = _settings.BenchRecords.Select(r => new ReportBench(r.Date, TestName(r.Test), r.Summary)).ToList();
         foreach (var r in _settings.BenchRuns)
