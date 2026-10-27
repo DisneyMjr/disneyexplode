@@ -5,6 +5,24 @@ on:
     branches: [main]
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      publish_release:
+        description: 'Publicar os downloads em Releases'
+        type: boolean
+        default: true
+      release_tag:
+        description: 'Tag da release (ex.: v0.17.0 ou latest)'
+        type: string
+        default: latest
+        required: true
+      release_title:
+        description: 'Título da release (vazio usa Disney Explode + tag)'
+        type: string
+        required: false
+      prerelease:
+        description: 'Marcar como pré-lançamento'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -67,6 +85,7 @@ jobs:
           if-no-files-found: error
 
   release:
+    if: ${{ github.event_name != 'workflow_dispatch' || inputs.publish_release }}
     needs: [windows, linux]
     runs-on: ubuntu-22.04
     permissions:
@@ -80,12 +99,27 @@ jobs:
       - name: Publicar downloads
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_TAG: ${{ inputs.release_tag }}
+          INPUT_TITLE: ${{ inputs.release_title }}
+          INPUT_PRERELEASE: ${{ inputs.prerelease }}
         shell: bash
         run: |
           set -euo pipefail
-          tag="${GITHUB_REF_NAME}"
+          tag="$GITHUB_REF_NAME"
           if [[ "$GITHUB_REF" == refs/heads/* ]]; then tag=latest; fi
-          if ! gh release view "$tag" >/dev/null 2>&1; then
-            gh release create "$tag" --target "$GITHUB_SHA" --title "Disney Explode ($tag)" --notes-file RELEASE-NOTES.md
+          if [[ "$EVENT_NAME" == workflow_dispatch ]]; then tag="$INPUT_TAG"; fi
+          git check-ref-format "refs/tags/$tag" || { echo "Tag inválida: $tag"; exit 1; }
+          title="${INPUT_TITLE:-Disney Explode ($tag)}"
+          flags=()
+          if [[ "$INPUT_PRERELEASE" == true ]]; then
+            flags+=(--prerelease --latest=false)
+          else
+            flags+=(--latest)
+          fi
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release edit "$tag" --title "$title" --notes-file RELEASE-NOTES.md "${flags[@]}"
+          else
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$title" --notes-file RELEASE-NOTES.md "${flags[@]}"
           fi
           gh release upload "$tag" packages/DisneyExplode.exe packages/DisneyExplode-windows-x64.zip packages/DisneyExplode-linux-x64.tar.gz --clobber
